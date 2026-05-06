@@ -70,7 +70,13 @@
             return;
         }
 
-        var p = (window.scrollY - y0) / denom;
+        // Reserve the final viewport-height of pin time for the next section
+        // (`.services-cover`) to slide up over the still-pinned about content,
+        // so the text reveal finishes BEFORE that curtain rise begins.
+        var revealEnd = denom - vh;
+        if (revealEnd <= 0) revealEnd = denom;
+
+        var p = (window.scrollY - y0) / revealEnd;
 
         if (p < 0) p = 0;
         else if (p > 1) p = 1;

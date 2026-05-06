@@ -25,3 +25,7 @@
     position: static !important;
     min-height: 0 !important;
 }
+
+.services-cover {
+    margin-top: 0 !important;
+}

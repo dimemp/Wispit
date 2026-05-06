@@ -333,7 +333,7 @@ a:focus-visible {
     position: absolute;
     inset: 0;
     z-index: 0;
-    background-image: url("../assets/images/wispit_hero_image_pastel.webp");
+    background-image: url("../assets/images/wispit_final_v3.webp");
     background-size: cover;
     background-position: center 22%;
     background-repeat: no-repeat;
@@ -358,19 +358,18 @@ a:focus-visible {
     letter-spacing: 0.08em;
 }
 
-/* Product media: only what Bootstrap utilities can't express */
-
-.product-media {
-    aspect-ratio: 2556 / 1352;
-    background-color: var(--dd-muted);
-}
-
 .about-scroll-track {
-    --about-scroll: 2.5;
+    --about-scroll: 3.5;
+    --about-cover: 1;
     min-height: calc(100vh * var(--about-scroll));
     min-height: calc(100dvh * var(--about-scroll));
     position: relative;
     z-index: 1;
+}
+
+.services-cover {
+    margin-top: calc(-100vh * var(--about-cover, 1));
+    margin-top: calc(-100dvh * var(--about-cover, 1));
 }
 
 .about-sticky {
@@ -422,6 +421,10 @@ a:focus-visible {
     .about-char {
         color: var(--dd-heading) !important;
         transition: none;
+    }
+
+    .services-cover {
+        margin-top: 0;
     }
 
 }
