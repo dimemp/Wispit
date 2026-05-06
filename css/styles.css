@@ -16,26 +16,22 @@ body {
 
 :root {
 	--wi-font-family: "plus-jakarta-sans", system-ui, sans-serif;
-	/* Match Bootstrap 5’s stack so body, nav, and utilities use the same face as headings */
-	--bs-font-sans-serif: var(--wi-font-family);
-	--bs-body-font-family: var(--wi-font-family);
+	--wi-font-family-body: "inter", system-ui, sans-serif;
+	--wi-font-family-mono: "geist-mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	--bs-font-sans-serif: var(--wi-font-family-body);
+	--bs-body-font-family: var(--wi-font-family-body);
+	--bs-font-monospace: var(--wi-font-family-mono);
 	--bs-body-font-size: 1rem;
 	--bs-body-font-weight: 400;
 	--bs-body-line-height: 1.6;
 	--bs-body-color: #4A4A48;
 	--bs-secondary-color: #737371;
 	--bs-body-bg: #fffefb;
-	/* Keep the RGB form in sync — BS's bg-body / bg-*-subtle utilities
-	   resolve colour through rgba(var(--bs-body-bg-rgb), …) rather than
-	   through --bs-body-bg, so overriding one without the other leaves
-	   those utilities stuck on the default white. */
 	--bs-body-bg-rgb: 255, 254, 251;
 	--dd-bg-dark: #f5f3f1;
 	--bs-border-radius: 0.5rem;
 	--bs-border-radius-sm: 0.25rem;
 	--bs-border-radius-lg: 0.75rem;
-	/* Unified border colour so BS border utilities (border, border-start,
-	   border-top, …) render in the same grey as our page rails. */
 	--bs-border-color: var(--dd-rule);
 	--dd-ink: #0A0A0A;
 	--dd-surface: #FBFBFB;
@@ -55,14 +51,7 @@ body {
 	--dd-text-hover: #424242;
 	--dd-overlay: rgb(236, 236, 236);
 	--dd-rule: rgb(236, 236, 236);
-	--dd-pill: 50rem;
-	--dd-beam-color: rgba(0, 132, 255, 1);
-	--dd-beam-color-soft: rgba(0, 132, 255, 0.6);
-	--dd-beam-grad-top: rgba(0, 132, 255, 0.35);
-	--dd-beam-grad-bottom: rgba(0, 132, 255, 0.01);
-	--dd-beam-speed: 1.5s;
-	--dd-gap-y: 3rem;
-	--dd-gap-y-lg: 5rem;
+	--wi-main-brand-color: #ff5c00;
 }
 
 /* Typography */
@@ -109,15 +98,20 @@ h6, .h6 {
 }
 
 p, .body-text {
+	font-family: var(--wi-font-family-body);
 	color: var(--dd-body);
+}
+
+.font-mono {
+	font-family: var(--wi-font-family-mono);
 }
 
 .fs-09 {
 	font-size: 0.9rem;
 }
 
-.fs-0875 {
-	font-size: 0.875rem;
+.fs-08 {
+	font-size: 0.8rem;
 }
 
 .fs-075 {
@@ -133,19 +127,23 @@ p, .body-text {
 }
 
 a {
-	color: var(--dd-body);
+	color: var(--dd-heading);
 	text-decoration: underline;
-	transition: text-decoration 0.2s, color 0.2s;
-}
-
-.text-wrap-normal {
-	text-wrap: wrap;
+	text-decoration-color: var(--dd-border);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
+	transition: color 0.15s, text-decoration-color 0.15s;
 }
 
 a:hover,
 a:focus,
 a:focus-visible {
-	text-decoration: none;
+	color: var(--wi-main-brand-color);
+	text-decoration-color: var(--wi-main-brand-color);
+}
+
+.text-wrap-normal {
+	text-wrap: wrap;
 }
 
 @media (max-width: 767.98px) {
@@ -160,6 +158,12 @@ a:focus-visible {
 		line-height: 1.38;
 	}
 
+}
+
+/* Colors */
+
+.main-brand-color {
+	color: var(--wi-main-brand-color);
 }
 
 /* Buttons */
@@ -335,33 +339,30 @@ a:focus-visible {
     background-repeat: no-repeat;
 }
 
-/* Services: the only rules with no BS utility equivalent.
+/* Divided cards (services, products, and any future section grids) */
 
-   1. Divider seam between cards — direction flips at the breakpoint
-      (vertical at md+, horizontal when stacked), and BS has no
-      responsive border-direction utility.
-   2. Letter-spacing on the eyebrow label — no letter-spacing utility.
-
-   Everything else (container rails, top/bottom rules, wrapper bg/z-index,
-   3-col layout, card padding/flex, canvas sizing, label colour/weight/case,
-   title size via .h5, desc via .fs-09) is handled by Bootstrap utilities
-   in the markup. */
-
-.service-card + .service-card {
+.divided-card + .divided-card {
     border-inline-start: 1px solid var(--bs-border-color);
 }
 
 @media (max-width: 767.98px) {
 
-    .service-card + .service-card {
+    .divided-card + .divided-card {
         border-inline-start: 0;
         border-top: 1px solid var(--bs-border-color);
     }
 
 }
 
-.service-card .label {
+.divided-card .label {
     letter-spacing: 0.08em;
+}
+
+/* Product media: only what Bootstrap utilities can't express */
+
+.product-media {
+    aspect-ratio: 2556 / 1352;
+    background-color: var(--dd-muted);
 }
 
 .about-scroll-track {
