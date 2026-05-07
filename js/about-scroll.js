@@ -57,6 +57,16 @@
     function tick() {
 
         raf = 0;
+
+        // Pause per-character work while a programmatic smooth-scroll is in
+        // progress (e.g. clicking a navbar link). Iterating hundreds of
+        // chars + triggering color transitions every frame stutters that
+        // animation; navbar.js fires a final 'scroll' event when it ends,
+        // which will bring the reveal back in sync.
+        if (document.documentElement.classList.contains("is-auto-scrolling")) {
+            return;
+        }
+
         var rect = about.getBoundingClientRect();
         var y0 = window.scrollY + rect.top;
         var h = about.offsetHeight;

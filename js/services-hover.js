@@ -1,7 +1,7 @@
 /* Services card hover animations (3 canvases).
    - Canvas background is #FFFEFB to match --bs-body-bg.
-   - Greys are pulled from the site palette (--dd-border, --dd-faded,
-     --dd-dim, --dd-subtle, --dd-muted, --dd-rule) so the graphics sit
+   - Greys are pulled from the site palette (--wi-border, --wi-faded,
+     --wi-dim, --wi-subtle, --wi-muted, --wi-rule) so the graphics sit
      in the same warm-neutral family as the rest of the page.
    - One-shot per hover: a full animation cycle always runs to completion,
      even if the user leaves the card mid-cycle; subsequent hovers while

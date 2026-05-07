@@ -1,4 +1,4 @@
-/* --- Base: tokens, typography, buttons, navbar, hero, sections --- */
+/* --- Base: typography, buttons, navbar, hero, sections --- */
 
 /* Prevent vw-based elements from causing horizontal scroll on Windows */
 
@@ -12,12 +12,26 @@ body {
 	text-wrap: balance;
 }
 
-/* Root & tokens */
+/* Root & variables */
 
 :root {
 	--wi-font-family: "plus-jakarta-sans", system-ui, sans-serif;
 	--wi-font-family-body: "inter", system-ui, sans-serif;
 	--wi-font-family-mono: "geist-mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	--wi-ink: #0A0A0A;
+	--wi-muted: #F0F0EF;
+	--wi-subtle: #E2E1E0;
+	--wi-border: #D5D4D3;
+	--wi-dim: #B8B7B6;
+	--wi-faded: #737271;
+	--wi-body: #4A4A48;
+	--wi-strong: #3A3A39;
+	--wi-heading: #262625;
+	--wi-slate-a08: rgb(44 50 66 / 8%);
+	--wi-overlay: rgb(236, 236, 236);
+	--wi-rule: rgb(236, 236, 236);
+	--wi-main-brand-color: #ff5c00;
+
 	--bs-font-sans-serif: var(--wi-font-family-body);
 	--bs-body-font-family: var(--wi-font-family-body);
 	--bs-font-monospace: var(--wi-font-family-mono);
@@ -28,22 +42,8 @@ body {
 	--bs-secondary-color: #737371;
 	--bs-body-bg: #fffefb;
 	--bs-border-radius: 0.5rem;
-	--bs-border-radius-sm: 0.25rem;
 	--bs-border-radius-lg: 0.75rem;
-	--bs-border-color: var(--dd-rule);
-	--dd-ink: #0A0A0A;
-	--dd-muted: #F0F0EF;
-	--dd-subtle: #E2E1E0;
-	--dd-border: #D5D4D3;
-	--dd-dim: #B8B7B6;
-	--dd-faded: #737271;
-	--dd-body: #4A4A48;
-	--dd-strong: #3A3A39;
-	--dd-heading: #262625;
-	--dd-slate-a08: rgb(44 50 66 / 8%);
-	--dd-overlay: rgb(236, 236, 236);
-	--dd-rule: rgb(236, 236, 236);
-	--wi-main-brand-color: #ff5c00;
+	--bs-border-color: var(--wi-rule);
 }
 
 /* Typography */
@@ -55,7 +55,7 @@ h4, .h4,
 h5, .h5,
 h6, .h6 {
 	font-family: var(--wi-font-family);
-	color: var(--dd-heading);
+	color: var(--wi-heading);
 	font-weight: 500;
 }
 
@@ -91,7 +91,7 @@ h6, .h6 {
 
 p {
 	font-family: var(--wi-font-family-body);
-	color: var(--dd-body);
+	color: var(--wi-body);
 }
 
 .font-mono {
@@ -111,9 +111,9 @@ p {
 }
 
 a {
-	color: var(--dd-heading);
+	color: var(--wi-heading);
 	text-decoration: underline;
-	text-decoration-color: var(--dd-border);
+	text-decoration-color: var(--wi-border);
 	text-decoration-thickness: 1px;
 	text-underline-offset: 0.2em;
 	transition: color 0.15s, text-decoration-color 0.15s;
@@ -152,22 +152,41 @@ a:focus-visible {
 	text-wrap: nowrap;
 }
 
-.btn-outline-primary {
-	--bs-btn-color: var(--dd-heading);
-	--bs-btn-border-color: var(--dd-border);
-	--bs-btn-hover-color: var(--dd-ink);
-	--bs-btn-hover-bg: var(--dd-muted);
-	--bs-btn-hover-border-color: var(--dd-border);
-	--bs-btn-active-color: var(--dd-ink);
-	--bs-btn-active-bg: var(--dd-subtle);
-	--bs-btn-active-border-color: var(--dd-dim);
+.btn-primary {
+	--bs-btn-color: var(--bs-white);
+	--bs-btn-bg: var(--wi-ink);
+	--bs-btn-border-color: var(--wi-ink);
+	--bs-btn-hover-color: var(--bs-white);
+	--bs-btn-hover-bg: var(--wi-heading);
+	--bs-btn-hover-border-color: var(--wi-heading);
+	--bs-btn-active-color: var(--bs-white);
+	--bs-btn-active-bg: var(--wi-strong);
+	--bs-btn-active-border-color: var(--wi-strong);
 	--bs-btn-font-weight: 500;
 	--bs-btn-font-size: 0.9rem;
 	--bs-btn-padding-y: 0.5rem;
 	--bs-btn-padding-x: 1.125rem;
-	--bs-btn-border-radius: var(--dd-pill);
-	--bs-btn-disabled-color: var(--dd-dim);
-	--bs-btn-disabled-border-color: var(--dd-border);
+	--bs-btn-border-radius: var(--bs-border-radius);
+	--bs-btn-disabled-bg: var(--wi-dim);
+	--bs-btn-disabled-border-color: var(--wi-dim);
+}
+
+.btn-outline-primary {
+	--bs-btn-color: var(--wi-heading);
+	--bs-btn-border-color: var(--wi-border);
+	--bs-btn-hover-color: var(--wi-ink);
+	--bs-btn-hover-bg: var(--wi-muted);
+	--bs-btn-hover-border-color: var(--wi-border);
+	--bs-btn-active-color: var(--wi-ink);
+	--bs-btn-active-bg: var(--wi-subtle);
+	--bs-btn-active-border-color: var(--wi-dim);
+	--bs-btn-font-weight: 500;
+	--bs-btn-font-size: 0.9rem;
+	--bs-btn-padding-y: 0.5rem;
+	--bs-btn-padding-x: 1.125rem;
+	--bs-btn-border-radius: var(--bs-border-radius);
+	--bs-btn-disabled-color: var(--wi-dim);
+	--bs-btn-disabled-border-color: var(--wi-border);
 }
 
 /* Navbar */
@@ -178,11 +197,7 @@ a:focus-visible {
 }
 
 .navbar-toggler-icon {
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3e%3cpath stroke='%230A0A0A' stroke-linecap='round' stroke-width='1.5' d='M4 8h16M4 16h16'/%3e%3c/svg%3e") !important;
-}
-
-.navbar-brand {
-	font-size: 0 !important;
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3e%3cpath stroke='%23262625' stroke-linecap='round' stroke-width='1.5' d='M4 8h16M4 16h16'/%3e%3c/svg%3e") !important;
 }
 
 .navbar {
@@ -192,31 +207,41 @@ a:focus-visible {
 .navbar .nav-link {
 	font-size: 0.875rem;
 	font-weight: 500;
-	color: var(--dd-heading);
-	border-radius: var(--dd-pill);
+	color: var(--wi-heading);
+	border-radius: var(--bs-border-radius);
 	transition: color 0.15s, background-color 0.15s;
 }
 
 .navbar .nav-link:hover,
 .navbar .nav-link:focus-visible {
-	color: var(--dd-ink);
-	background-color: var(--dd-muted);
+	color: var(--wi-ink);
+	background-color: var(--wi-muted);
 }
 
 .navbar .nav-link.active {
-	color: var(--dd-ink);
+	color: var(--wi-ink);
 }
 
 @media (max-width: 992px) {
 
+    .navbar {
+        position: relative;
+    }
+
     #navbarMobile {
-        border: solid 1px var(--dd-overlay);
-        border-radius: 0.5rem;
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        left: 0;
+        right: 0;
+        z-index: 10;
+        background-color: var(--bs-body-bg);
+        border: solid 1px var(--wi-overlay);
+        border-radius: var(--bs-border-radius);
     }
 
     .navbar .nav-item {
         padding: .5rem;
-        border-top: solid 1px var(--dd-overlay);
+        border-top: solid 1px var(--wi-overlay);
     }
 
     .navbar .nav-item:first-child {
@@ -224,31 +249,13 @@ a:focus-visible {
     }
 
     .navbar .nav-item:last-child {
-        border-bottom: solid 1px var(--dd-overlay);   
+        border-bottom: solid 1px var(--wi-overlay);   
     }
 
 	.navbar .nav-link {
 		font-size: 0.9rem;
-		border-radius: var(--bs-border-radius-lg);
+		border-radius: var(--bs-border-radius);
 	}
-
-}
-
-@media (max-width: 576px) {
-
-    #navbarMobile {
-        margin-left: calc(var(--bs-gutter-x) * -0.5);
-        margin-right: calc(var(--bs-gutter-x) * -0.5);
-        border-top: 0;
-        border-left: 0;
-        border-right: 0;
-        border-radius: 0;
-        box-shadow: 0 7px 10px -7px var(--dd-slate-a08);
-    }
-
-    .navbar .nav-item:first-child {
-        border-top: solid 1px var(--dd-overlay);  
-    }
 
 }
 
@@ -275,7 +282,7 @@ a:focus-visible {
     inset: 0;
     background-image: url("../assets/images/wispit_ventures_hero_image.webp");
     background-size: cover;
-    background-position: center 22%;
+    background-position: center 24%;
     background-repeat: no-repeat;
 }
 
@@ -321,7 +328,7 @@ a:focus-visible {
     align-items: center;
     z-index: 1;
     box-sizing: border-box;
-    background-image: radial-gradient(var(--dd-rule) 1px,transparent 0);
+    background-image: radial-gradient(var(--wi-rule) 1px,transparent 0);
     background-size: 8px 8px;
 }
 
@@ -331,7 +338,7 @@ a:focus-visible {
 
 .about-reveal-title {
     text-wrap: balance;
-    color: var(--dd-faded);
+    color: var(--wi-faded);
 }
 
 .about-reveal {
@@ -339,12 +346,32 @@ a:focus-visible {
 }
 
 .about-char {
-    color: var(--dd-faded);
+    color: var(--wi-faded);
     transition: color 0.04s ease-out;
 }
 
 .about-char.is-lit {
-    color: var(--dd-heading);
+    color: var(--wi-heading);
+}
+
+/* While navbar.js drives a smooth scroll, strip the most expensive paint
+   work in the about section so the animation stays buttery. The dotted
+   radial-gradient on `.about-sticky` is a 100vh tiled pattern that the
+   browser must re-composite every frame; hiding it for ~1s during the
+   programmatic scroll is imperceptible at speed but removes the hitch.
+   We also disable scroll anchoring + per-character color transitions so
+   nothing else nudges the frame budget mid-flight. */
+
+html.is-auto-scrolling {
+    overflow-anchor: none;
+}
+
+html.is-auto-scrolling .about-char {
+    transition: none;
+}
+
+html.is-auto-scrolling .about-sticky {
+    background-image: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -359,7 +386,7 @@ a:focus-visible {
     }
 
     .about-char {
-        color: var(--dd-heading) !important;
+        color: var(--wi-heading) !important;
         transition: none;
     }
 
