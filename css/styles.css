@@ -318,22 +318,15 @@ a:focus-visible {
 
 /* Hero */
 
-.site-logo {
-    height: 2rem;
-    width: auto;
-}
-
 .hero-wrap {
     position: relative;
     isolation: isolate;
 }
 
-.hero-bg-image {
-    pointer-events: none;
+#hero-bg-image {
     position: absolute;
     inset: 0;
-    z-index: 0;
-    background-image: url("../assets/images/wispit_final_v3.webp");
+    background-image: url("../assets/images/wispit_ventures_hero_image.webp");
     background-size: cover;
     background-position: center 22%;
     background-repeat: no-repeat;
