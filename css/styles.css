@@ -1,4 +1,4 @@
-/* --- Base: tokens, dot pattern, typography, buttons, navbar --- */
+/* --- Base: tokens, typography, buttons, navbar, hero, sections --- */
 
 /* Prevent vw-based elements from causing horizontal scroll on Windows */
 
@@ -27,14 +27,11 @@ body {
 	--bs-body-color: #4A4A48;
 	--bs-secondary-color: #737371;
 	--bs-body-bg: #fffefb;
-	--bs-body-bg-rgb: 255, 254, 251;
-	--dd-bg-dark: #f5f3f1;
 	--bs-border-radius: 0.5rem;
 	--bs-border-radius-sm: 0.25rem;
 	--bs-border-radius-lg: 0.75rem;
 	--bs-border-color: var(--dd-rule);
 	--dd-ink: #0A0A0A;
-	--dd-surface: #FBFBFB;
 	--dd-muted: #F0F0EF;
 	--dd-subtle: #E2E1E0;
 	--dd-border: #D5D4D3;
@@ -43,12 +40,7 @@ body {
 	--dd-body: #4A4A48;
 	--dd-strong: #3A3A39;
 	--dd-heading: #262625;
-	--dd-black-a04: rgba(0, 0, 0, 0.04);
-	--dd-black-a08: rgba(0, 0, 0, 0.08);
-	--dd-black-a15: rgba(0, 0, 0, 0.15);
-	--dd-backdrop-scrim: rgba(10, 10, 10, 0.45);
 	--dd-slate-a08: rgb(44 50 66 / 8%);
-	--dd-text-hover: #424242;
 	--dd-overlay: rgb(236, 236, 236);
 	--dd-rule: rgb(236, 236, 236);
 	--wi-main-brand-color: #ff5c00;
@@ -97,7 +89,7 @@ h6, .h6 {
 	line-height: 1.52;
 }
 
-p, .body-text {
+p {
 	font-family: var(--wi-font-family-body);
 	color: var(--dd-body);
 }
@@ -118,14 +110,6 @@ p, .body-text {
 	font-size: 0.75rem;
 }
 
-.fs-07 {
-	font-size: 0.7rem;
-}
-
-.lh-14 {
-	line-height: 1.4!important;
-}
-
 a {
 	color: var(--dd-heading);
 	text-decoration: underline;
@@ -140,10 +124,6 @@ a:focus,
 a:focus-visible {
 	color: var(--wi-main-brand-color);
 	text-decoration-color: var(--wi-main-brand-color);
-}
-
-.text-wrap-normal {
-	text-wrap: wrap;
 }
 
 @media (max-width: 767.98px) {
@@ -170,25 +150,6 @@ a:focus-visible {
 
 .btn {
 	text-wrap: nowrap;
-}
-
-.btn-primary {
-	--bs-btn-color: var(--bs-white);
-	--bs-btn-bg: var(--dd-ink);
-	--bs-btn-border-color: var(--dd-ink);
-	--bs-btn-hover-color: var(--bs-white);
-	--bs-btn-hover-bg: var(--dd-heading);
-	--bs-btn-hover-border-color: var(--dd-heading);
-	--bs-btn-active-color: var(--bs-white);
-	--bs-btn-active-bg: var(--dd-strong);
-	--bs-btn-active-border-color: var(--dd-strong);
-	--bs-btn-font-weight: 500;
-	--bs-btn-font-size: 0.9rem;
-	--bs-btn-padding-y: 0.5rem;
-	--bs-btn-padding-x: 1.125rem;
-	--bs-btn-border-radius: var(--dd-pill);
-	--bs-btn-disabled-bg: var(--dd-dim);
-	--bs-btn-disabled-border-color: var(--dd-dim);
 }
 
 .btn-outline-primary {
@@ -297,23 +258,9 @@ a:focus-visible {
 	padding-top: 10rem!important;
 }
 
-.py-6 {
-	padding-top: 4rem!important;
-	padding-bottom: 4rem!important;
-}
-
-.py-7 {
-	padding-top: 4.5rem!important;
-	padding-bottom: 4.5rem!important;
-}
-
 .py-10 {
     padding-top: 6rem!important;
 	padding-bottom: 6rem!important;
-}
-
-.mb-9 {
-	margin-bottom: 6.5rem!important;
 }
 
 /* Hero */

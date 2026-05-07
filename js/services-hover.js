@@ -1,10 +1,14 @@
 /* Services card hover animations (3 canvases).
-   - Canvas background is #FFFEFB (slight warm off-white).
+   - Canvas background is #FFFEFB to match --bs-body-bg.
+   - Greys are pulled from the site palette (--dd-border, --dd-faded,
+     --dd-dim, --dd-subtle, --dd-muted, --dd-rule) so the graphics sit
+     in the same warm-neutral family as the rest of the page.
    - One-shot per hover: a full animation cycle always runs to completion,
      even if the user leaves the card mid-cycle; subsequent hovers while
      an animation is playing are ignored (no restart).
-   - Accent colour is orange #FF5C00; the "gradient" appearance comes from
-     varying alpha along each beam (peak opacity = the pure orange). */
+   - Accent colour is orange #FF5C00 (--wi-main-brand-color); the
+     "gradient" appearance comes from varying alpha along each beam
+     (peak opacity = the pure orange). */
 
 (function () {
     if (typeof document === "undefined") return;
@@ -15,9 +19,11 @@
     var ORANGE = [255, 92, 0];
     var LW = 0.7;
     var BG = "#FFFEFB";
-    var lineC = "#D9D9D9";
-    var dotC = "#999999";
-    var divC = "#CCCCCC";
+    var lineC = "#D5D4D3";
+    var dotC = "#737271";
+    var divC = "#D5D4D3";
+
+    var MONO_FONT = '"geist-mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace';
 
     // Drawings are authored in a 220×160 logical space. We upscale the bitmap
     // so the canvas stays crisp when CSS stretches it across the full card
@@ -251,9 +257,9 @@
         var pW = 50, pH = 13, cxI = 110;
 
         var layers = [
-            { label: "Infrastructure", topY: 116, fill: "#EFEFEF", tc: "#666" },
-            { label: "Product",        topY: 90,  fill: "#EFEFEF", tc: "#555" },
-            { label: "Business",       topY: 64,  fill: "#EFEFEF", tc: "#444" }
+            { label: "Infrastructure", topY: 116, fill: "#F0F0EF", tc: "#737271" },
+            { label: "Product",        topY: 90,  fill: "#F0F0EF", tc: "#4A4A48" },
+            { label: "Business",       topY: 64,  fill: "#F0F0EF", tc: "#3A3A39" }
         ];
 
         function iso(topY, u, v) { 
@@ -281,14 +287,14 @@
             ctx.closePath();
 
             ctx.fillStyle = layer.fill; ctx.fill();
-            ctx.strokeStyle = "#DADADA"; ctx.lineWidth = LW; ctx.stroke();
+            ctx.strokeStyle = lineC; ctx.lineWidth = LW; ctx.stroke();
 
             var edgeDx = c.br.x - c.bl.x, edgeDy = c.br.y - c.bl.y, angle = Math.atan2(edgeDy, edgeDx);
             var sx = c.bl.x + (c.br.x - c.bl.x) * 0.02 + (c.tl.x - c.bl.x) * 0.18;
             var sy = c.bl.y + (c.br.y - c.bl.y) * 0.02 + (c.tl.y - c.bl.y) * 0.18;
 
             ctx.save(); ctx.translate(sx, sy); ctx.rotate(angle);
-            ctx.font = "9px monospace"; ctx.fillStyle = layer.tc;
+            ctx.font = '7px ' + MONO_FONT; ctx.fillStyle = layer.tc;
             ctx.textAlign = "left"; ctx.textBaseline = "middle";
             ctx.fillText(layer.label, 0, 0); ctx.restore();
             ctx.restore();
@@ -306,14 +312,14 @@
             ctx.closePath();
 
             ctx.fillStyle = layer.fill; ctx.fill();
-            ctx.strokeStyle = "#DADADA"; ctx.lineWidth = LW; ctx.stroke();
+            ctx.strokeStyle = lineC; ctx.lineWidth = LW; ctx.stroke();
 
             var edgeDx = c.br.x - c.bl.x, edgeDy = c.br.y - c.bl.y, angle = Math.atan2(edgeDy, edgeDx);
             var sx = c.bl.x + (c.br.x - c.bl.x) * 0.02 + (c.tl.x - c.bl.x) * 0.18;
             var sy = c.bl.y + (c.br.y - c.bl.y) * 0.02 + (c.tl.y - c.bl.y) * 0.18;
 
             ctx.save(); ctx.translate(sx, sy); ctx.rotate(angle);
-            ctx.font = "9px monospace"; ctx.fillStyle = layer.tc;
+            ctx.font = '7px ' + MONO_FONT; ctx.fillStyle = layer.tc;
             ctx.textAlign = "left"; ctx.textBaseline = "middle";
             ctx.fillText(layer.label, 0, 0); ctx.restore();
             ctx.restore();
@@ -412,8 +418,8 @@
         var SCYCLE = 3200;
         var W = 220, H = 160, mid = W / 2;
 
-        var fillL = "#EDEDED", fillR = BG;
-        var btnStroke = "#BBB", textC = "#888";
+        var fillL = "#F0F0EF", fillR = BG;
+        var btnStroke = "#B8B7B6", textC = "#737271";
 
         function drawScene(beamX) {
 
@@ -500,17 +506,17 @@
                 ctx.restore();
             }
 
-            rRect(ox + 6, 14, 98, 11, 2, fillL, "#CCC");
-            ctx.save(); ctx.globalAlpha = 1; ctx.fillStyle = "#D8D8D8"; ctx.fillRect(ox + 10, 17, 28, 5); ctx.restore();
-            ctx.save(); ctx.globalAlpha = 1; ctx.fillStyle = "#DDD"; ctx.fillRect(ox + 78, 17, 16, 5); ctx.restore();
-            rRect(ox + 6, 30, 98, 44, 2, fillL, "#CCC");
+            rRect(ox + 6, 14, 98, 11, 2, fillL, lineC);
+            ctx.save(); ctx.globalAlpha = 1; ctx.fillStyle = "#B8B7B6"; ctx.fillRect(ox + 10, 17, 28, 5); ctx.restore();
+            ctx.save(); ctx.globalAlpha = 1; ctx.fillStyle = "#D5D4D3"; ctx.fillRect(ox + 78, 17, 16, 5); ctx.restore();
+            rRect(ox + 6, 30, 98, 44, 2, fillL, lineC);
             rRect(ox + 12, 34, 86, 36, 1, fillR, null);
-            rRect(ox + 6, 80, 44, 7, 2, "#D8D8D8", null);
-            rRect(ox + 6, 92, 98, 4, 1, "#E0E0E0", null);
-            rRect(ox + 6, 101, 70, 4, 1, "#E4E4E4", null);
+            rRect(ox + 6, 80, 44, 7, 2, "#B8B7B6", null);
+            rRect(ox + 6, 92, 98, 4, 1, "#E2E1E0", null);
+            rRect(ox + 6, 101, 70, 4, 1, "#ECECEC", null);
             rRect(ox + 22, 112, 60, 13, 3, fillL, btnStroke);
             ctx.save();
-            ctx.globalAlpha = 1; ctx.fillStyle = textC; ctx.font = "7px monospace";
+            ctx.globalAlpha = 1; ctx.fillStyle = textC; ctx.font = '7px ' + MONO_FONT;
             ctx.textAlign = "center"; ctx.textBaseline = "middle";
             ctx.fillText("Launch", ox + 52, 118.5); ctx.restore();
 
