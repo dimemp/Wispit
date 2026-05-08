@@ -31,6 +31,7 @@ body {
 	--wi-overlay: rgb(236, 236, 236);
 	--wi-rule: rgb(236, 236, 236);
 	--wi-main-brand-color: #ff5c00;
+	--wi-main-brand-color-hover: #C64700;
 
 	--bs-font-sans-serif: var(--wi-font-family-body);
 	--bs-body-font-family: var(--wi-font-family-body);
@@ -111,7 +112,7 @@ p {
 }
 
 a {
-	color: var(--wi-heading);
+	color: var(--wi-main-brand-color);
 	text-decoration: underline;
 	text-decoration-color: var(--wi-border);
 	text-decoration-thickness: 1px;
@@ -120,10 +121,58 @@ a {
 }
 
 a:hover,
-a:focus,
 a:focus-visible {
-	color: var(--wi-main-brand-color);
 	text-decoration-color: var(--wi-main-brand-color);
+}
+
+/* .text-light needs !important to beat Bootstrap's own !important color. */
+
+a.text-light:hover,
+a.text-light:focus-visible {
+	color: var(--wi-main-brand-color) !important;
+}
+
+/* Animated underline (opt-in via .link-animated): a subtle resting line
+   plus an orange overlay that grows left-to-right on hover. Uses
+   stacked background-image gradients so the effect survives line-wraps
+   on inline links (a ::after pseudo-element wouldn't). */
+
+.link-animated {
+	text-decoration: none;
+	background-image:
+		linear-gradient(var(--wi-main-brand-color), var(--wi-main-brand-color)),
+		linear-gradient(var(--wi-border), var(--wi-border));
+	background-size: 0% 1px, 100% 1px;
+	background-position: 0 100%, 0 100%;
+	background-repeat: no-repeat;
+	padding-bottom: 0.15em;
+	transition: background-size 0.3s ease-out, color 0.15s;
+}
+
+.link-animated:hover,
+.link-animated:focus-visible {
+	text-decoration: none;
+	background-size: 100% 1px, 100% 1px;
+}
+
+/* On bright/varied backgrounds, swap the muted resting line for a solid
+   white one. We use a fixed color (not currentColor) so it stays white
+   while the text transitions to orange on hover -- otherwise both layers
+   would flip to orange together and the growing-orange animation would
+   be invisible. */
+
+.link-animated.text-light {
+	background-image:
+		linear-gradient(var(--wi-main-brand-color), var(--wi-main-brand-color)),
+		linear-gradient(#fff, #fff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.link-animated {
+		transition: none;
+	}
+
 }
 
 .lh-xlg {
@@ -158,14 +207,14 @@ a:focus-visible {
 
 .btn-primary {
 	--bs-btn-color: var(--bs-white);
-	--bs-btn-bg: var(--wi-ink);
-	--bs-btn-border-color: var(--wi-ink);
+	--bs-btn-bg: var(--wi-main-brand-color);
+	--bs-btn-border-color: var(--wi-main-brand-color);
 	--bs-btn-hover-color: var(--bs-white);
-	--bs-btn-hover-bg: var(--wi-heading);
-	--bs-btn-hover-border-color: var(--wi-heading);
+	--bs-btn-hover-bg: var(--wi-main-brand-color-hover);
+	--bs-btn-hover-border-color: var(--wi-main-brand-color-hover);
 	--bs-btn-active-color: var(--bs-white);
-	--bs-btn-active-bg: var(--wi-strong);
-	--bs-btn-active-border-color: var(--wi-strong);
+	--bs-btn-active-bg: var(--wi-main-brand-color-hover);
+	--bs-btn-active-border-color: var(--wi-main-brand-color-hover);
 	--bs-btn-font-weight: 500;
 	--bs-btn-font-size: 0.9rem;
 	--bs-btn-padding-y: 0.5rem;

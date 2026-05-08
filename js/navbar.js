@@ -15,6 +15,9 @@
 (function () {
     "use strict";
 
+    // Must match the CSS height transition on .collapsing — if you change one,
+    // change the other, otherwise the JS will strip .collapsing too early
+    // (clipping the animation) or too late (leaving inline height stuck).
     var TRANSITION_MS = 350;
     var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -26,6 +29,9 @@
         return el.classList.contains("collapsing");
     }
 
+    // A single collapse target can have several togglers (e.g. the hamburger
+    // button plus an off-canvas entry point), so we update every element
+    // pointing at this target id, not just the one that was clicked.
     function syncTogglers(target, expanded) {
         var id = target.id;
         if (!id) return;
@@ -40,8 +46,14 @@
 
     function show(target) {
 
+        // Re-entry guard: ignore clicks while we're mid-animation, otherwise
+        // overlapping toggles would leave the height/classes inconsistent.
         if (isShown(target) || isTransitioning(target)) return;
 
+        // Class lifecycle mirrors Bootstrap's: drop .collapse, swap in
+        // .collapsing for the duration of the height transition, then
+        // settle on .collapse.show. The CSS keys all the styling off these
+        // classes — the JS here is purely orchestrating timing.
         target.classList.remove("collapse");
         target.classList.add("collapsing");
         target.style.height = "0px";
@@ -51,8 +63,12 @@
         // (otherwise the transition won't kick in).
         void target.offsetHeight;
 
+        // scrollHeight is the natural content height even while the element
+        // is currently sized to 0 — that's the value we animate towards.
         var endHeight = target.scrollHeight + "px";
 
+        // Shared end-state used by both the timer and the reduced-motion
+        // shortcut, so both branches always land on identical DOM.
         function done() {
             target.classList.remove("collapsing");
             target.classList.add("collapse", "show");
@@ -72,6 +88,10 @@
 
         if (!isShown(target) || isTransitioning(target)) return;
 
+        // The element is currently at its natural (auto) height. CSS can't
+        // transition from `auto` to `0`, so first pin the current pixel
+        // height as an inline style and force a reflow — only then is the
+        // browser willing to animate the change to 0.
         target.style.height = target.getBoundingClientRect().height + "px";
         void target.offsetHeight;
 
@@ -99,16 +119,23 @@
         else show(target);
     }
 
+    // Single delegated click handler so togglers added later (e.g. via
+    // dynamic markup) Just Work without re-binding.
     document.addEventListener("click", function (e) {
 
         var toggler = e.target.closest('[data-bs-toggle="collapse"]');
 
         if (toggler) {
+            // Bootstrap accepts either data-bs-target or href as the
+            // selector, so fall back to href when the markup is the
+            // `<a href="#panel">`-style toggler.
             var selector = toggler.getAttribute("data-bs-target") ||
                            toggler.getAttribute("href");
             if (!selector) return;
             var target = document.querySelector(selector);
             if (!target) return;
+            // Stops the <a>-style toggler from doing an instant hash-jump
+            // before our collapse animation gets to run.
             e.preventDefault();
             toggle(target);
             return;
@@ -185,12 +212,18 @@
     }
 
     function smoothScrollTo(targetY, duration) {
+        // If a previous animation is still running (rapid link clicks),
+        // tear it down first — two rAF loops both calling scrollTo would
+        // fight and visibly jitter the page.
         cancelActiveScroll();
 
         var startY = window.scrollY || window.pageYOffset;
         var distance = targetY - startY;
         if (distance === 0) return;
 
+        // Anchored on the first rAF tick (below) rather than now, so the
+        // elapsed-time calculation is relative to the first painted frame
+        // instead of including any setup overhead before that.
         var startTime = null;
 
         function step(now) {
@@ -207,6 +240,10 @@
             }
         }
 
+        // Order matters: claim the scroll (so scroll-driven scripts back
+        // off) and wire up the user-input interrupts BEFORE queuing the
+        // first frame, so the very first tick already runs in a clean
+        // "we own the scroll" state.
         startAutoScroll();
         attachInterrupts();
         activeScroll = window.requestAnimationFrame(step);
@@ -216,6 +253,8 @@
 
         // Only act on plain left-clicks without modifier keys, so users can
         // still cmd/ctrl/middle-click to open in a new tab if they want.
+        // defaultPrevented also lets the navbar collapse handler above
+        // claim the click first without us double-handling it.
         if (e.defaultPrevented) return;
         if (e.button !== undefined && e.button !== 0) return;
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -223,9 +262,15 @@
         var link = e.target.closest('a[href]');
         if (!link) return;
 
+        // Only same-page hash links. Skip "" / "#" / external URLs entirely
+        // so the browser handles those as normal.
         var href = link.getAttribute("href");
         if (!href || href.charAt(0) !== "#" || href.length < 2) return;
 
+        // querySelector throws on syntactically invalid selectors (e.g. a
+        // hash containing slashes or other CSS-meaningful chars). Treat
+        // that as "not our concern" and bail without preventDefault, so
+        // the browser can fall back to its own behaviour.
         var target;
         try {
             target = document.querySelector(href);
@@ -236,6 +281,10 @@
 
         e.preventDefault();
 
+        // rect.top is viewport-relative; add the current scroll position
+        // to convert it into a document-absolute Y. Math.max clamps at the
+        // top of the page in case the math underflows (edge cases with
+        // sub-pixel rects / negative margins).
         var rect = target.getBoundingClientRect();
         var currentY = window.scrollY || window.pageYOffset;
         var targetY = Math.max(0, Math.round(rect.top + currentY));
@@ -246,6 +295,9 @@
             smoothScrollTo(targetY, SCROLL_DURATION_MS);
         }
 
+        // Use pushState rather than assigning to location.hash, because
+        // setting location.hash triggers the browser's own jump-to-anchor
+        // behaviour and would fight the smooth-scroll we just started.
         if (window.history && typeof window.history.pushState === "function") {
             window.history.pushState(null, "", href);
         }

@@ -1,3 +1,19 @@
+/* Per-character scroll reveal for the About section heading.
+
+   The heading text is split into one <span class="about-char"> per glyph,
+   then progressively gains the .is-lit class (a CSS-driven color/opacity
+   transition) in proportion to how far #about has been scrolled through
+   its pin range.
+
+   - The original heading stays in the DOM but visually-hidden, so screen
+     readers get the sentence in one piece; the animated copy in
+     #about-reveal is purely decorative.
+   - Honors prefers-reduced-motion by skipping the split entirely and
+     showing the static heading instead.
+   - Scroll work is rAF-throttled, and bails out while navbar.js is driving
+     a programmatic smooth-scroll, since iterating hundreds of chars per
+     frame would jank that animation. */
+
 (function () {
     "use strict";
 
@@ -10,6 +26,10 @@
 
     var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+    // Reduced-motion fallback: drop the animated copy entirely and put the
+    // static heading back on stage. The id has to migrate from the inner
+    // <span> to the parent <h2> so in-page anchors / aria-labelledby
+    // references to #about-heading still land on something visible.
     if (reduceMotion.matches) {
         about.classList.add("about--reduced");
         var h2r = heading.parentElement;
@@ -20,6 +40,10 @@
         return;
     }
 
+    // Rebuild the heading inside #about-reveal as one span per glyph.
+    // Direct-child <br>s are preserved (line breaks matter for the layout);
+    // text nodes are split into chars; anything else is intentionally
+    // skipped — the source heading should only contain text and <br>.
     reveal.textContent = "";
     var nodes = heading.childNodes;
 
@@ -52,6 +76,7 @@
     if (!chars.length)
         return;
 
+    // Doubles as a "frame already queued" flag and as the rAF cancel token.
     var raf = 0;
 
     function tick() {
@@ -68,11 +93,14 @@
         }
 
         var rect = about.getBoundingClientRect();
-        var y0 = window.scrollY + rect.top;
+        var y0 = window.scrollY + rect.top;   // absolute Y of #about's top
         var h = about.offsetHeight;
         var vh = window.innerHeight;
-        var denom = h - vh;
+        var denom = h - vh;                   // total scroll distance while pinned
 
+        // Section is shorter than the viewport (e.g. on very tall screens):
+        // there's no scroll range to map progress against, so just light
+        // every char and stop — no animation possible.
         if (denom <= 0) {
             for (var j = 0; j < chars.length; j += 1) {
                 chars[j].classList.add("is-lit");
@@ -86,6 +114,8 @@
         var revealEnd = denom - vh;
         if (revealEnd <= 0) revealEnd = denom;
 
+        // Map scroll position into 0..1 progress across the reveal range,
+        // clamped at the ends so reverse-scrolling past the section works.
         var p = (window.scrollY - y0) / revealEnd;
 
         if (p < 0) p = 0;
@@ -93,6 +123,9 @@
 
         var lit = p * chars.length;
 
+        // Add/remove every frame is cheap: classList is a no-op when the
+        // class state is already what we asked for, so this avoids the
+        // bookkeeping of tracking "previous lit count" ourselves.
         for (var k = 0; k < chars.length; k += 1) {
             if (k < lit) {
                 chars[k].classList.add("is-lit");
@@ -102,6 +135,9 @@
         }
     }
 
+    // Coalesce bursts of scroll events into a single rAF callback so the
+    // math runs at most once per frame, regardless of how often the browser
+    // fires 'scroll' on this device.
     function onScroll() {
         if (raf) return;
         raf = window.requestAnimationFrame(tick);
