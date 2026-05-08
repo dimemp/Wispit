@@ -126,6 +126,10 @@ a:focus-visible {
 	text-decoration-color: var(--wi-main-brand-color);
 }
 
+.lh-xlg {
+	line-height: 4!important;
+}
+
 @media (max-width: 767.98px) {
 
 	h1, .h1 {
@@ -187,6 +191,113 @@ a:focus-visible {
 	--bs-btn-border-radius: var(--bs-border-radius);
 	--bs-btn-disabled-color: var(--wi-dim);
 	--bs-btn-disabled-border-color: var(--wi-border);
+}
+
+/* Arrow button: animated left-to-right underline + slide-in arrow on hover */
+
+.btn-arrow {
+	--bs-btn-color: var(--wi-heading);
+	--bs-btn-bg: transparent;
+	--bs-btn-border-color: transparent;
+	--bs-btn-hover-color: var(--wi-main-brand-color);
+	--bs-btn-hover-bg: transparent;
+	--bs-btn-hover-border-color: transparent;
+	--bs-btn-active-color: var(--wi-main-brand-color);
+	--bs-btn-active-bg: transparent;
+	--bs-btn-active-border-color: transparent;
+	--bs-btn-font-weight: 500;
+	--bs-btn-font-size: 0.9rem;
+	--bs-btn-padding-y: 0.5rem;
+	--bs-btn-padding-x: 1.125rem;
+	--bs-btn-border-radius: 0;
+	--bs-btn-border-width: 0;
+
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	overflow: hidden;
+	transition: color 0.2s ease-out;
+}
+
+.btn-arrow::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 2px;
+	background-color: var(--wi-main-brand-color);
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform 0.25s ease-out;
+	pointer-events: none;
+}
+
+.btn-arrow .btn-arrow-icon {
+	width: 0.9em;
+	height: 0.9em;
+	color: var(--wi-main-brand-color);
+	opacity: 0;
+	transform: translateX(-6px);
+	transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+	flex-shrink: 0;
+}
+
+.btn-arrow:hover,
+.btn-arrow:focus-visible {
+	color: var(--wi-main-brand-color);
+}
+
+.btn-arrow:hover::after,
+.btn-arrow:focus-visible::after {
+	transform: scaleX(1);
+}
+
+.btn-arrow:hover .btn-arrow-icon,
+.btn-arrow:focus-visible .btn-arrow-icon {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+@media (max-width: 767.98px) {
+
+	.btn-arrow {
+		color: var(--wi-main-brand-color);
+	}
+
+	.btn-arrow::after {
+		transform: scaleX(1);
+	}
+
+	.btn-arrow .btn-arrow-icon {
+		opacity: 1;
+		transform: translateX(0);
+	}
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.btn-arrow,
+	.btn-arrow::after,
+	.btn-arrow .btn-arrow-icon {
+		transition: none;
+	}
+
+}
+
+/* Decorative band with 45-degree line pattern */
+
+.lined-band {
+	background-image: repeating-linear-gradient(
+		-45deg,
+		var(--wi-rule) 0,
+		var(--wi-rule) 1px,
+		transparent 1px,
+		transparent 10px
+	);
 }
 
 /* Navbar */
