@@ -3,7 +3,7 @@
    - Greys are pulled from the site palette (--wi-border, --wi-faded,
      --wi-dim, --wi-subtle, --wi-muted, --wi-rule) so the graphics sit
      in the same warm-neutral family as the rest of the page.
-   - On viewports ≤768px (and when the user has not requested reduced motion),
+   - On viewports below Bootstrap's lg breakpoint (≤991.98px; and when the user has not requested reduced motion),
      each card also autoplays its cycle on a continuous loop so touch devices
      see the same motion without hover.
    - One-shot per hover on larger screens: a full animation cycle always runs to completion,
@@ -29,7 +29,7 @@
     var MONO_FONT = '"geist-mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace';
 
     var reduceMotionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    var mobileServicesMq = window.matchMedia("(max-width: 767.98px)");
+    var mobileServicesMq = window.matchMedia("(max-width: 991.98px)");
 
     function servicesAutoplayForever() {
         return mobileServicesMq.matches && !reduceMotionMq.matches;
