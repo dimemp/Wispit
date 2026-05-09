@@ -3,7 +3,10 @@
    - Greys are pulled from the site palette (--wi-border, --wi-faded,
      --wi-dim, --wi-subtle, --wi-muted, --wi-rule) so the graphics sit
      in the same warm-neutral family as the rest of the page.
-   - One-shot per hover: a full animation cycle always runs to completion,
+   - On viewports ≤768px (and when the user has not requested reduced motion),
+     each card also autoplays its cycle on a continuous loop so touch devices
+     see the same motion without hover.
+   - One-shot per hover on larger screens: a full animation cycle always runs to completion,
      even if the user leaves the card mid-cycle; subsequent hovers while
      an animation is playing are ignored (no restart).
    - Accent colour is orange #FF5C00 (--wi-main-brand-color); the
@@ -24,6 +27,13 @@
     var divC = "#D5D4D3";
 
     var MONO_FONT = '"geist-mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace';
+
+    var reduceMotionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var mobileServicesMq = window.matchMedia("(max-width: 767.98px)");
+
+    function servicesAutoplayForever() {
+        return mobileServicesMq.matches && !reduceMotionMq.matches;
+    }
 
     // Drawings are authored in a 220×160 logical space. We upscale the bitmap
     // so the canvas stays crisp when CSS stretches it across the full card
@@ -121,6 +131,7 @@
         setupHiDpi(bc, ctx);
         var animating = false, animStart = null, raf = null;
         var BCYCLE = 2800;
+        var loopForever = servicesAutoplayForever();
 
         var sourceDots = [
         { x: 28, y: 22 }, { x: 22, y: 45 }, { x: 32, y: 68 },
@@ -212,9 +223,12 @@
 
         if (!animStart) animStart = ts;
 
-        var elapsed = ts - animStart;
+        var raw = ts - animStart;
 
-        if (elapsed >= BCYCLE) {
+        if (loopForever && raw >= BCYCLE) {
+            animStart = ts;
+            raw = 0;
+        } else if (!loopForever && raw >= BCYCLE) {
             drawBase();
             animating = false;
             animStart = null;
@@ -222,19 +236,25 @@
             return;
         }
 
-        var t = elapsed / BCYCLE;
+        var t = raw / BCYCLE;
         drawBase(); drawBeams(t);
         raf = requestAnimationFrame(loop);
     }
 
     card.addEventListener("mouseenter", function () {
-        if (animating) return;
+        if (loopForever || animating) return;
         animating = true;
         animStart = null;
         raf = requestAnimationFrame(loop);
     });
 
     drawBase();
+
+    if (loopForever) {
+        animating = true;
+        animStart = null;
+        raf = requestAnimationFrame(loop);
+    }
 
 }
 
@@ -254,6 +274,7 @@
         setupHiDpi(ic, ctx);
         var animating = false, animStart = null, raf = null;
         var ISO_CYCLE = 6000;
+        var loopForever = servicesAutoplayForever();
         var pW = 50, pH = 13, cxI = 110;
 
         var layers = [
@@ -353,9 +374,12 @@
 
             if (!animStart) animStart = ts;
 
-            var elapsed = ts - animStart;
+            var raw = ts - animStart;
 
-            if (elapsed >= ISO_CYCLE) {
+            if (loopForever && raw >= ISO_CYCLE) {
+                animStart = ts;
+                raw = 0;
+            } else if (!loopForever && raw >= ISO_CYCLE) {
                 drawBase();
                 animating = false;
                 animStart = null;
@@ -363,7 +387,7 @@
                 return;
             }
 
-            var t = elapsed / ISO_CYCLE;
+            var t = raw / ISO_CYCLE;
             ctx.clearRect(0, 0, 220, 160);
             ctx.fillStyle = BG; ctx.fillRect(0, 0, 220, 160);
 
@@ -394,7 +418,7 @@
 
         card.addEventListener("mouseenter", function () {
 
-            if (animating) return;
+            if (loopForever || animating) return;
 
             animating = true;
             animStart = null;
@@ -402,6 +426,12 @@
         });
 
         drawBase();
+
+        if (loopForever) {
+            animating = true;
+            animStart = null;
+            raf = requestAnimationFrame(loop);
+        }
     }
 
     /* Card 3 — wireframe left / rendered right, with a scanning beam */
@@ -416,6 +446,7 @@
         setupHiDpi(bc, ctx);
         var animating = false, animStart = null, raf = null;
         var SCYCLE = 3200;
+        var loopForever = servicesAutoplayForever();
         var W = 220, H = 160, mid = W / 2;
 
         var fillL = "#F0F0EF", fillR = BG;
@@ -539,9 +570,12 @@
 
             if (!animStart) animStart = ts;
 
-            var elapsed = ts - animStart;
+            var raw = ts - animStart;
 
-            if (elapsed >= SCYCLE) {
+            if (loopForever && raw >= SCYCLE) {
+                animStart = ts;
+                raw = 0;
+            } else if (!loopForever && raw >= SCYCLE) {
                 drawScene(null);
                 animating = false;
                 animStart = null;
@@ -549,7 +583,7 @@
                 return;
             }
             
-            var t = elapsed / SCYCLE;
+            var t = raw / SCYCLE;
             var beamX = easeInOut(t) * W;
             drawScene(beamX);
             raf = requestAnimationFrame(loop);
@@ -558,7 +592,7 @@
 
         card.addEventListener("mouseenter", function () {
 
-            if (animating) return;
+            if (loopForever || animating) return;
             
             animating = true;
             animStart = null;
@@ -566,6 +600,12 @@
         });
 
         drawScene(null);
+
+        if (loopForever) {
+            animating = true;
+            animStart = null;
+            raf = requestAnimationFrame(loop);
+        }
     }
 
     function init() {

@@ -246,13 +246,13 @@ a.text-light:focus-visible {
 
 .btn-arrow {
 	--bs-btn-color: var(--wi-heading);
-	--bs-btn-bg: transparent;
+	--bs-btn-bg: var(--bs-white);
 	--bs-btn-border-color: transparent;
 	--bs-btn-hover-color: var(--wi-main-brand-color);
-	--bs-btn-hover-bg: transparent;
+	--bs-btn-hover-bg: var(--bs-white);
 	--bs-btn-hover-border-color: transparent;
 	--bs-btn-active-color: var(--wi-main-brand-color);
-	--bs-btn-active-bg: transparent;
+	--bs-btn-active-bg: var(--bs-white);
 	--bs-btn-active-border-color: transparent;
 	--bs-btn-font-weight: 500;
 	--bs-btn-font-size: 0.9rem;
@@ -276,7 +276,7 @@ a.text-light:focus-visible {
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	height: 2px;
+	height: 1px;
 	background-color: var(--wi-main-brand-color);
 	transform: scaleX(0);
 	transform-origin: left center;
@@ -317,7 +317,7 @@ a.text-light:focus-visible {
 	}
 
 	.btn-arrow::after {
-		transform: scaleX(1);
+		content: none;
 	}
 
 	.btn-arrow .btn-arrow-icon {
@@ -347,6 +347,10 @@ a.text-light:focus-visible {
 		transparent 1px,
 		transparent 10px
 	);
+}
+
+.bg-body-color {
+	background-color: var(--bs-body-bg);
 }
 
 /* Navbar */
@@ -419,7 +423,7 @@ a.text-light:focus-visible {
 
 }
 
-/* Paddings & margins */
+/* Paddings & margins & widths */
 
 .pt-10 {
 	padding-top: 10rem!important;
@@ -428,6 +432,18 @@ a.text-light:focus-visible {
 .py-10 {
     padding-top: 6rem!important;
 	padding-bottom: 6rem!important;
+}
+
+.w-65 {
+	width: 65%!important;
+}
+
+@media (max-width: 767.98px) {
+
+	.pt-10 {
+		padding-top: 5rem!important;
+	}
+
 }
 
 /* Hero */
