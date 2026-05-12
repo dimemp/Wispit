@@ -1,5 +1,6 @@
 /* Sets the footer copyright year to the current year, so the page never
-   goes stale without a manual edit. */
+   goes stale without a manual edit. 
+*/
 
 (function () {
     "use strict";

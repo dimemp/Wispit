@@ -156,10 +156,8 @@ a.text-light:focus-visible {
 }
 
 /* On bright/varied backgrounds, swap the muted resting line for a solid
-   white one. We use a fixed color (not currentColor) so it stays white
-   while the text transitions to orange on hover -- otherwise both layers
-   would flip to orange together and the growing-orange animation would
-   be invisible. */
+   white one. 
+*/
 
 .link-animated.text-light {
 	background-image:
@@ -462,7 +460,7 @@ a.text-light:focus-visible {
     background-repeat: no-repeat;
 }
 
-/* Divided cards (services, products, and any future section grids) */
+/* Divided cards */
 
 .divided-card + .divided-card {
     border-inline-start: 1px solid var(--bs-border-color);
@@ -531,12 +529,8 @@ a.text-light:focus-visible {
 }
 
 /* While navbar.js drives a smooth scroll, strip the most expensive paint
-   work in the about section so the animation stays buttery. The dotted
-   radial-gradient on `.about-sticky` is a 100vh tiled pattern that the
-   browser must re-composite every frame; hiding it for ~1s during the
-   programmatic scroll is imperceptible at speed but removes the hitch.
-   We also disable scroll anchoring + per-character color transitions so
-   nothing else nudges the frame budget mid-flight. */
+   work in the about section so the animation stays buttery.
+*/
 
 html.is-auto-scrolling {
     overflow-anchor: none;

@@ -5,14 +5,15 @@
    transition) in proportion to how far #about has been scrolled through
    its pin range.
 
-   - The original heading stays in the DOM but visually-hidden, so screen
+    - The original heading stays in the DOM but visually-hidden, so screen
      readers get the sentence in one piece; the animated copy in
      #about-reveal is purely decorative.
-   - Honors prefers-reduced-motion by skipping the split entirely and
+    - Honors prefers-reduced-motion by skipping the split entirely and
      showing the static heading instead.
-   - Scroll work is rAF-throttled, and bails out while navbar.js is driving
+    - Scroll work is rAF-throttled, and bails out while navbar.js is driving
      a programmatic smooth-scroll, since iterating hundreds of chars per
-     frame would jank that animation. */
+     frame would jank that animation. 
+*/
 
 (function () {
     "use strict";

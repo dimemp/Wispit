@@ -1,9 +1,6 @@
-/* Fallback styles loaded only when JavaScript is disabled
-   (via <noscript><link ...></noscript> in index.html).
-
-   Undoes the sticky/scroll-revealed About section so the full text is
-   readable statically — without JS the letter-reveal animation can't run,
-   so we show the hidden copy and collapse the tall scroll track. */
+/* Fallback styles loaded only when JavaScript is disabled.
+   Undoes the sticky/scroll-revealed About section so the full text is readable statically.
+*/
 
 #about .visually-hidden {
     position: static !important;

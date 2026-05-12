@@ -154,15 +154,10 @@
 
 })();
 
-/* Smooth in-page scrolling for anchor links (e.g. navbar Services / Products
-   / About). Replaces the browser's instant jump with a longer, eased scroll
+/* Smooth in-page scrolling for anchor links. 
+   Replaces the browser's instant jump with a longer, eased scroll
    so sections feel like they glide into view rather than snap.
-
-   - Triggers on any <a href="#section-id"> click whose target exists.
-   - Uses easeInOutCubic for a soft start/end.
-   - Respects prefers-reduced-motion (falls back to instant jump).
-   - Updates the URL hash via history.pushState so back/forward still work
-     and the address bar stays in sync. */
+*/
 
 (function () {
     "use strict";
